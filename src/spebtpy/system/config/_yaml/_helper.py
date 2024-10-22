@@ -2,6 +2,7 @@ import sys
 from referencing import Registry, Resource
 from referencing.jsonschema import DRAFT7
 import json
+import spebtpy
 
 if sys.version_info < (3, 10):
     from importlib_resources import files as _files
@@ -11,7 +12,7 @@ else:
 
 def get_schema_registry(version: str = "v1"):
     # Load the schema
-    _schema_dir = _files(f"pyspebt.system.specification.schema.{version}")
+    _schema_dir = _files(f"spebtpy.system.config.schema.{version}")
     _basenames = ["main", "detector", "relation", "FOV", "transformation_data"]
 
     schema_registry = Registry()

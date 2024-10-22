@@ -1,6 +1,6 @@
 import h5py
 import numpy as np
-import pyspebt
+import spebtpy
 
 
 def get_hdf5_handle_mpi(comm, configFname):

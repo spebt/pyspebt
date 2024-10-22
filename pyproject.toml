@@ -12,7 +12,7 @@ dependencies = [
   "jsonschema",
   "referencing",
 ]
-name = "pyspebt"
+name = "spebtpy"
 dynamic = ["version"]
 description = "Python package for the SPEBT project."
 readme = "README.md"
@@ -26,17 +26,17 @@ classifiers = [
 [tool.setuptools_scm]
 
 [project.urls]
-Homepage = "https://github.com/spebt/pyspebt/"
-Issues = "https://github.com/spebt/pyspebt/issues"
-Documentation = "https://spebt.github.io/pyspebt/"
-
-[tool.setuptools]
-include-package-data = true
+Homepage = "https://github.com/spebt/spebtpy/"
+Issues = "https://github.com/spebt/spebtpy/issues"
+Documentation = "https://spebt.github.io/spebtpy/"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["pyspebt"]
+# include = ["spebtpy"]
 namespaces = false
 
 [tool.setuptools.package-data]
-"pyspebt.system.schema.v1" = ["*.json"]
+"spebtpy.system.config.schema.v1" = ["*.json"]
+
+[project.scripts]
+spebtpy = "spebtpy.cmdline.cli:app"
