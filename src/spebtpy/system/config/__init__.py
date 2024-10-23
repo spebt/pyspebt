@@ -1,9 +1,9 @@
 """
 ==================
-Specification 
+Specification
 ===================
 """
-__all__ = ["yaml", "schema"]
-from . import _yaml as yaml 
-from . import _schema as schema
 
+__all__ = ["yaml", "schema"]
+from . import yaml
+from . import schema

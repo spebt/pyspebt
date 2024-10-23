@@ -5,15 +5,10 @@ Plot with matplotlib
 
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib
 import matplotlib.patches as patches
 from matplotlib.collections import PatchCollection
 from matplotlib.path import Path
-import sys
-import re
 from typing import TypedDict
-import spebtpy.system.config as spebtconfig
-
 
 Transform = TypedDict("Transform", {"angle": float, "trans_r": float, "trans_t": float})
 
@@ -70,11 +65,8 @@ def geoms_to_patchcollection(
 
 
 def plot_system(config: dict, basename: str):
-
     geoms = np.array(config["det geoms"])
-    fov_dims = np.array(config["FOV"]["N voxels xyz"]) * np.array(
-        config["FOV"]["mm per voxel xyz"]
-    )
+    fov_dims = np.array(config["fov nvx"]) * np.array(config["mmpvx"])
     trans_t = -(np.max(geoms[:, 3]) + np.min(geoms[:, 2])) / 2
     det_dims = np.array(
         [
@@ -83,9 +75,9 @@ def plot_system(config: dict, basename: str):
             np.max(geoms[:, 5]) - np.min(geoms[:, 4]),
         ]
     )
-    trans_r = config['r shift'][0]
-    trans_t = config['t shift'][0]
-    angles = config['rotation']
+    trans_r = config["r shift"][0]
+    trans_t = config["t shift"][0]-det_dims[1]*0.5
+    angles = config["rotation"]
     trans_list = [
         Transform({"angle": angle, "trans_r": trans_r, "trans_t": trans_t})
         for angle in angles
@@ -103,7 +95,7 @@ def plot_system(config: dict, basename: str):
     fig, ax = plt.subplots(figsize=(11, 10), dpi=600)
     ax.add_patch(
         patches.Rectangle(
-            (-fov_dims[0] // 2, -fov_dims[1] // 1),
+            (-fov_dims[0] // 2, -fov_dims[1] // 2),
             fov_dims[0],
             fov_dims[1],
             fc="none",
@@ -113,10 +105,10 @@ def plot_system(config: dict, basename: str):
     )
     ax.add_collection(det_coll)
     ax.add_collection(plate_coll)
-    # ax.add_collection(coll)
     ax.set_xlim((trans_r + det_dims[0]) * (-1.1), (trans_r + det_dims[0]) * 1.1)
     ax.set_ylim((trans_r + det_dims[0]) * (-1.1), (trans_r + det_dims[0]) * 1.1)
     ax.set_aspect("equal")
     ax.axis("off")
+    print("Saving figure")
     fig.savefig("%s.png" % basename)
     del fig, ax, det_coll, plate_coll, coll

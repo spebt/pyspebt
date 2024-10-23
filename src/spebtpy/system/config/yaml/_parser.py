@@ -41,7 +41,7 @@ def parse(filename: str):
     with open(filename, "r") as stream:
         try:
             config = yaml.safe_load(stream)
-            validate(config, "base", version="v1")
+            validate(config, "main.json", version="v1")
         except Exception as err:
             print("Error:", "Failed validating configuration file!!")
             print("Error Messages:\n%s" % err.__str__)
